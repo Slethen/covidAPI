@@ -1,3 +1,4 @@
+var config = require('./config');
 var express = require("express");
 var app = express();
 var request = require("request");
@@ -39,7 +40,7 @@ var getall = setInterval(async () => {
 
   db.set("all", result);
   console.log("Updated The Cases", result);
-}, 100000);
+}, config.scraperFreq);
 
 // var to switch between today & yesterday data
 daySwitch = 1;
@@ -211,7 +212,7 @@ var getcountries = setInterval(async () => {
     ++daySwitch;
   }
 
-}, 100000);
+}, config.scraperFreq);
 
 app.get("/", async function(request, response) {
   let a = await db.fetch("all");
@@ -220,7 +221,7 @@ app.get("/", async function(request, response) {
   );
 });
 
-var listener = app.listen(36625, function() {
+var listener = app.listen(config.port, function() {
   console.log("Your app is listening on port " + listener.address().port);
 });
 
