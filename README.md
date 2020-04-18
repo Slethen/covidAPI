@@ -1,14 +1,23 @@
 # COVID API
-API for live information about COVID-19
+API for live information about COVID-19 used for https://covid-19.uk.com
 
-GET https://coronavirus-19-api.herokuapp.com/all -> global info
+## API Endpoints
 
-GET https://coronavirus-19-api.herokuapp.com/countries -> all countries info
+### World Infomation
+GET https://api.covid-19.uk.com/all
 
-GET https://coronavirus-19-api.herokuapp.com/countries/{countryName} -> country specific information
+### Global Infomation
+GET https://api.covid-19.uk.com/countries
 
-**The api part is a fork from https://github.com/NovelCOVID/API + some fixes (due to CORS and outdated code was not working)
+### Country Specific Infomation
+GET https://api.covid-19.uk.com/countries/{countryName}
 
-an ionic frontend is showing the info nicely at https://coronavirus-19-api.herokuapp.com/ 
-![Global info](https://raw.githubusercontent.com/javieraviles/covidAPI/master/screenshots/tab1.png)
-![Cases by country](https://raw.githubusercontent.com/javieraviles/covidAPI/master/screenshots/tab2.png)
+## Yesterday Endpoint
+
+### Global Infomation
+GET https://api.covid-19.uk.com/yesterday
+
+### Country Specific Infomation
+GET https://api.covid-19.uk.com/yesterday/{countryName}
+
+**The api part is a fork from https://github.com/NovelCOVID/API + fixes from https://github.com/javieraviles/covidAPI**
