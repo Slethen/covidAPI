@@ -8,8 +8,6 @@ var cors = require('cors')
 
 app.use(cors());
 
-app.use('/', express.static('www'));
-
 var getall = setInterval(async () => {
   let response;
   try {
@@ -41,7 +39,7 @@ var getall = setInterval(async () => {
 
   db.set("all", result);
   console.log("Updated The Cases", result);
-}, 150000);
+}, 100000);
 
 // var to switch between today & yesterday data
 daySwitch = 1;
@@ -105,6 +103,7 @@ var getcountries = setInterval(async () => {
         cell.children[0].children[0].children[0].data ||
         cell.children[0].children[0].children[0].children[0].data ||
         "";
+      country = country.replace(/ /g, "_") || "0";
       country = country.trim();
       if (country.length === 0) {
         // parse with hyperlink
@@ -212,7 +211,7 @@ var getcountries = setInterval(async () => {
     ++daySwitch;
   }
 
-}, 150000);
+}, 100000);
 
 app.get("/", async function(request, response) {
   let a = await db.fetch("all");
@@ -221,7 +220,7 @@ app.get("/", async function(request, response) {
   );
 });
 
-var listener = app.listen(process.env.PORT, function() {
+var listener = app.listen(36625, function() {
   console.log("Your app is listening on port " + listener.address().port);
 });
 
