@@ -40,7 +40,7 @@ var getall = setInterval(async () => {
 
   db.set("all", result);
   console.log("Updated The Cases", result);
-}, config.scraperFreq);
+}, scraperFreq);
 
 // var to switch between today & yesterday data
 daySwitch = 1;
@@ -88,7 +88,7 @@ var getcountries = setInterval(async () => {
   const criticalColIndex = 7;
   const casesPerOneMillionColIndex = 8;
   const deathsPerOneMillionColIndex = 9;
-  const totalTestsColIndex = 10;
+  const testsColIndex = 10;
   const testsPerOneMillionColIndex = 11;
 
   // minus totalColumns to skip last row, which is total
@@ -185,10 +185,10 @@ var getcountries = setInterval(async () => {
       );
     }
     // get total tests
-    if (i % totalColumns === totalTestsColIndex) {
-      let totalTests = cell.children.length != 0? cell.children[0].data : "";
-      result[result.length - 1].totalTests = parseInt(
-        totalTests.trim().replace(/,/g, "") || "0",
+    if (i % totalColumns === testsColIndex) {
+      let tests = cell.children.length != 0? cell.children[0].data : "";
+      result[result.length - 1].tests = parseInt(
+        tests.trim().replace(/,/g, "") || "0",
         10
       );
     }
@@ -212,7 +212,7 @@ var getcountries = setInterval(async () => {
     ++daySwitch;
   }
 
-}, config.scraperFreq);
+}, scraperFreq);
 
 app.get("/", async function(request, response) {
   let a = await db.fetch("all");
