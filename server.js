@@ -202,7 +202,6 @@ var getcountries = setInterval(async () => {
         testsPerOneMillion.replace(/,/g, "") || "0",
         10
       );
-      console.log(testsPerOneMillion);
     }
   }
 
