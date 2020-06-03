@@ -59,6 +59,9 @@ var getcountries = setInterval(async () => {
   // select today or yesterday
   if (daySwitch == 1) {
     day = "today"; dbName = "countries";
+  }
+  if (daySwitch == 2) {
+    day = "yesterday2"; dbName = "twoDay";
   } else {
     day = "yesterday"; dbName = "yesterday";
   }
@@ -84,7 +87,7 @@ var getcountries = setInterval(async () => {
   const deathsColIndex = 4;
   const todayDeathsColIndex = 5;
   const curedColIndex = 6;
-  const activeColIndex = 8;
+  const activeColIndex = 9;
   const criticalColIndex = 9;
   const casesPerOneMillionColIndex = 10;
   const deathsPerOneMillionColIndex = 11;
@@ -196,9 +199,10 @@ var getcountries = setInterval(async () => {
     if (i % totalColumns === testsPerOneMillionColIndex) {
       let testsPerOneMillion = cell.children.length != 0? cell.children[0].data : "";
       result[result.length - 1].testsPerOneMillion = parseInt(
-        testsPerOneMillion.trim().replace(/,/g, "") || "0",
+        testsPerOneMillion.replace(/,/g, "") || "0",
         10
       );
+      console.log(testsPerOneMillion);
     }
   }
 
@@ -206,8 +210,8 @@ var getcountries = setInterval(async () => {
   console.log("Updated " + day + " Countries", result);
 
   // increase var until greater then 1 then reset
-  if (daySwitch > 1) {
-    daySwitch = 1;
+  if (daySwitch > 2) {
+    daySwitch = 2;
   } else {
     ++daySwitch;
   }
@@ -215,10 +219,10 @@ var getcountries = setInterval(async () => {
 }, scraperFreq);
 
 app.get("/", async function(request, response) {
-  let a = await db.fetch("all");
-  response.send(
-    `${a.cases} cases are reported of the COVID-19 Novel Coronavirus strain<br> ${a.deaths} have died from it <br>\n${a.recovered} have recovered from it <br> Get the endpoint /all to get information for all cases <br> get the endpoint /countries for getting the data sorted country wise`
+  response.writeHead(301,
+    {Location: 'https://covid-19.uk.com/api'}
   );
+  response.end();
 });
 
 var listener = app.listen(config.port, function() {
@@ -259,6 +263,27 @@ app.get("/yesterday/", async function(req, res) {
 app.get("/yesterday/:country", async function(req, res) {
   let yesterday = await db.fetch("yesterday");
   let country = yesterday.find(
+  	e => {
+        	if(e.country.toLowerCase().localeCompare(req.params.country.toLowerCase()) === 0)
+        	{
+            return true;
+          }
+  	});
+  if (!country) {
+    res.send("Country not found");
+    return;
+  }
+  res.send(country);
+});
+
+app.get("/twoDay/", async function(req, res) {
+  let twoDay = await db.fetch("twoDay");
+  res.send(twoDay);
+});
+
+app.get("/twoDay/:country", async function(req, res) {
+  let twoDay = await db.fetch("twoDay");
+  let country = twoDay.find(
   	e => {
         	if(e.country.toLowerCase().localeCompare(req.params.country.toLowerCase()) === 0)
         	{
