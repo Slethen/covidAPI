@@ -59,11 +59,10 @@ var getcountries = setInterval(async () => {
   // select today or yesterday
   if (daySwitch == 1) {
     day = "today"; dbName = "countries";
-  }
-  if (daySwitch == 2) {
-    day = "yesterday2"; dbName = "twoDay";
-  } else {
+  } else if (daySwitch == 2) {
     day = "yesterday"; dbName = "yesterday";
+  } else {
+    day = "yesterday2"; dbName = "twoDay";
   }
 
   // to store parsed data
@@ -87,7 +86,7 @@ var getcountries = setInterval(async () => {
   const deathsColIndex = 4;
   const todayDeathsColIndex = 5;
   const curedColIndex = 6;
-  const activeColIndex = 9;
+  const activeColIndex = 7;
   const criticalColIndex = 9;
   const casesPerOneMillionColIndex = 10;
   const deathsPerOneMillionColIndex = 11;
@@ -210,7 +209,7 @@ var getcountries = setInterval(async () => {
 
   // increase var until greater then 1 then reset
   if (daySwitch > 2) {
-    daySwitch = 2;
+    daySwitch = 1;
   } else {
     ++daySwitch;
   }
